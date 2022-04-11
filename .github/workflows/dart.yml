@@ -6,6 +6,7 @@ on:
     paths:
       - '**/lib/**.dart'
       - '**/test/**.dart'
+      - '.github/workflows/dart.yml'
   pull_request:
     branches:
       - main
