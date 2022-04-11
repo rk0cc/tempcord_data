@@ -1,0 +1,35 @@
+name: Dart
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/lib/**.dart'
+      - '**/test/**.dart'
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    name: Dart test
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        workdir:
+          - './interface'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup action
+        uses: actions/checkout@v3
+      - name: Setup dart
+        uses: dart-lang/setup-dart@v1.3
+      - name: Install dependencies
+        working-directory: ${{ matrix.workdir }}
+        run: dart pub get
+      - name: Run tests
+        working-directory: ${{ matrix.workdir }}
+        run: dart test
