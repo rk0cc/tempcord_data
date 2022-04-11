@@ -13,6 +13,9 @@ abstract class Profile {
   /// [Animal] type of this [Profile].
   Animal get animal;
 
+  /// Construct [Profile] with given [name] and [animal].
+  external Profile(String name, Animal animal);
+
   /// Return a [Profile] with updated [name].
   Profile updateName(String name);
 
@@ -27,6 +30,8 @@ abstract class ProfileWithImage extends Profile {
   ///
   /// It allows to be nulled if not applied.
   UnmodifiableUint8ListView? get image;
+
+  external ProfileWithImage(String name, Animal animal, Uint8List? image);
 
   @override
   ProfileWithImage updateName(String name);
@@ -47,6 +52,8 @@ abstract class ProfileWithId<T extends Comparable> extends Profile {
   ///
   /// This field **should not be updated**.
   T get id;
+
+  external ProfileWithId(T id, String name, Animal animal);
 
   @override
   ProfileWithId<T> updateName(String name);
