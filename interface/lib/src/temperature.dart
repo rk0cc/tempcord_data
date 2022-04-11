@@ -52,8 +52,7 @@ abstract class Temperature implements Comparable<Temperature> {
         return Fahrenheit(val);
     }
 
-    throw AssertionError(
-        "$s suppose be thrown already but reached at the end of the factory");
+    throw TypeError();
   }
 
   @override
