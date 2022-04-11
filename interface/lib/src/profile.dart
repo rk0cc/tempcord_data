@@ -31,6 +31,7 @@ abstract class ProfileWithImage implements Profile {
   /// It allows to be nulled if not applied.
   UnmodifiableUint8ListView? get image;
 
+  /// Construct [Profile] with [image].
   external ProfileWithImage(String name, Animal animal, Uint8List? image);
 
   @override
@@ -53,6 +54,7 @@ abstract class ProfileWithId<T extends Comparable> implements Profile {
   /// This field **should not be updated**.
   T get id;
 
+  /// Construct [Profile] which has [id].
   external ProfileWithId(T id, String name, Animal animal);
 
   @override
