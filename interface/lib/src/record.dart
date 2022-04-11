@@ -6,25 +6,8 @@ import 'temperature.dart';
 
 @immutable
 abstract class BodyTemperatureRecordNode {
-  factory BodyTemperatureRecordNode(
-      {required Temperature temperature,
-      DateTime? recordedAt}) = _BodyTemperatureRecordNode;
-
   Temperature get temperature;
   DateTime get recordedAt;
-}
-
-@immutable
-@sealed
-class _BodyTemperatureRecordNode implements BodyTemperatureRecordNode {
-  @override
-  final DateTime recordedAt;
-
-  @override
-  final Temperature temperature;
-
-  _BodyTemperatureRecordNode({required this.temperature, DateTime? recordedAt})
-      : this.recordedAt = (recordedAt ?? DateTime.now()).toUtc();
 }
 
 extension BodyTemperatureRecordNodeList<N extends BodyTemperatureRecordNode>
