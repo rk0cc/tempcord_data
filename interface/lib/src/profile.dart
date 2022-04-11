@@ -25,7 +25,7 @@ abstract class Profile {
 
 /// A [Profile] that allow to store [image].
 @immutable
-abstract class ProfileWithImage extends Profile {
+abstract class ProfileWithImage implements Profile {
   /// [image] which encoded as [Uint8List] that repersenting [Profile] picture.
   ///
   /// It allows to be nulled if not applied.
@@ -47,7 +47,7 @@ abstract class ProfileWithImage extends Profile {
 ///
 /// The [id] type ([T]) must be [Comparable].
 @immutable
-abstract class ProfileWithId<T extends Comparable> extends Profile {
+abstract class ProfileWithId<T extends Comparable> implements Profile {
   /// Identify [Profile] from API.
   ///
   /// This field **should not be updated**.
