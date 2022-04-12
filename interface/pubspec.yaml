@@ -1,6 +1,6 @@
 name: tempcord_data_interface
 description: Standarized profile and body temperature record object model for Tempcord.
-version: 1.0.0+2
+version: 1.0.1
 environment: 
   sdk: ">=2.16.0 <3.0.0"
 homepage: https://github.com/rk0cc/tempcord_data

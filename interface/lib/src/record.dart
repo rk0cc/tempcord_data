@@ -26,10 +26,16 @@ abstract class BodyTemperatureRecordNode {
 extension BodyTemperatureRecordNodeListExtension<
     N extends BodyTemperatureRecordNode> on List<N> {
   /// [sort] [N] by [BodyTemperatureRecordNode.recordedAt].
+  ///
+  /// This can not be called if this [List] is [UnmodifiableListView] which
+  /// it throw [UnsupportedError] when calling [UnmodifiableListView.sort].
   void sortByRecordedDate({bool reverse = false}) => this.sort((a, b) =>
       (reverse ? b : a).recordedAt.compareTo((reverse ? a : b).recordedAt));
 
   /// [sort] [N] by [BodyTemperatureRecordNode.temperature].
+  ///
+  /// This can not be called if this [List] is [UnmodifiableListView] which
+  /// it throw [UnsupportedError] when calling [UnmodifiableListView.sort].
   void sortByTemperature({bool reverse = false}) => this.sort(((a, b) =>
       (reverse ? b : a).temperature.compareTo((reverse ? a : b).temperature)));
 
@@ -57,18 +63,6 @@ extension BodyTemperatureRecordNodeListExtension<
     return this.where((nodes) =>
         !(fromUtc?.isAfter(nodes.recordedAt) ?? false) &&
         !(toUtc?.isBefore(nodes.recordedAt) ?? false));
-  }
-}
-
-extension UnmodifiableBodyTemperatureRecordNodeListExtension<
-    N extends BodyTemperatureRecordNode> on UnmodifiableListView<N> {
-  void sortByRecordedDate() {
-    throw new UnsupportedError(
-        "Can not sort recorded date in unmodifiable list");
-  }
-
-  void sortByTemperature() {
-    throw new UnsupportedError("Can not sort temperature in unmodifiable list");
   }
 }
 
