@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:meta/meta.dart';
@@ -7,7 +6,7 @@ import 'package:tempcord_data_interface/interface.dart'
     show BodyTemperatureRecordNode;
 
 import '../typedef.dart' show CsvAttribute, CsvRow, Csv;
-import '../parser/converter.dart';
+import 'converter.dart';
 
 @sealed
 class CsvRowItemMismatchedError extends StateError {

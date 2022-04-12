@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:tempcord_data_interface/interface.dart' show Profile;
 
 import '../typedef.dart' show Json;
-import '../parser/converter.dart';
+import 'converter.dart';
 
 mixin ProfileJsonMixin on Profile {
   Json toJson();

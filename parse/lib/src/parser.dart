@@ -3,14 +3,8 @@ import 'dart:typed_data';
 import 'package:lzma/lzma.dart';
 import 'package:meta/meta.dart';
 
-import '../handlers/profile.dart';
-import '../handlers/record.dart';
-
-abstract class TempcordDataConverter<T> {
-  String encodeData(T data);
-
-  T decodeData(String dataStr);
-}
+import 'handlers/profile.dart';
+import 'handlers/record.dart';
 
 @sealed
 class ResolvedTempcordDataResult<P extends ProfileJsonMixin,

@@ -1,4 +1,4 @@
-name: tempcord_data_parse_generic
+name: tempcord_data_parser
 description: An abstracted parser implementation for parsing Tempcord data in different platforms.
 version: 1.0.0
 environment: 
