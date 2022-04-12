@@ -1,0 +1,18 @@
+name: tempcord_data_parse_generic
+description: An abstracted parser implementation for parsing Tempcord data in different platforms.
+version: 1.0.0
+environment: 
+  sdk: ">=2.16.0 <3.0.0"
+homepage: https://github.com/rk0cc/tempcord_data
+repository: https://github.com/rk0cc/tempcord_data/tree/main/parse_generic
+issue_tracker: https://github.com/rk0cc/tempcord_data/issues
+dependencies:
+  tempcord_data_interface: ^1.0.0+1
+  meta: ^1.7.0
+  csv: ^5.0.1
+  lzma: ^1.0.1
+dev_dependencies: 
+  test: ^1.20.2
+dependency_overrides:
+  tempcord_data_interface:
+    path: ../interface
