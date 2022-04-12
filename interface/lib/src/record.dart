@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:meta/meta.dart';
 
 import 'animal.dart' show Classification, AnimalMetadata;
@@ -9,6 +11,9 @@ import 'temperature.dart';
 /// This node usually store as [List].
 @immutable
 abstract class BodyTemperatureRecordNode {
+  external BodyTemperatureRecordNode(Temperature temperature,
+      [DateTime? recordedAt]);
+
   /// Recorded [temperature] at the moment.
   Temperature get temperature;
 
@@ -18,8 +23,8 @@ abstract class BodyTemperatureRecordNode {
 
 /// Give additional methods for a [List] of [BodyTemperatureRecordNode] and
 /// it's subclasses.
-extension BodyTemperatureRecordNodeList<N extends BodyTemperatureRecordNode>
-    on List<N> {
+extension BodyTemperatureRecordNodeListExtension<
+    N extends BodyTemperatureRecordNode> on List<N> {
   /// [sort] [N] by [BodyTemperatureRecordNode.recordedAt].
   void sortByRecordedDate({bool reverse = false}) => this.sort((a, b) =>
       (reverse ? b : a).recordedAt.compareTo((reverse ? a : b).recordedAt));
@@ -38,20 +43,32 @@ extension BodyTemperatureRecordNodeList<N extends BodyTemperatureRecordNode>
     final DateTime invokedAt = DateTime.now().toUtc();
     final DateTime? fromUtc = from?.toUtc(), toUtc = to?.toUtc();
 
-    assert((fromUtc == null || invokedAt.isAfter(fromUtc)) &&
-        (toUtc == null ||
-            invokedAt.isAfter(toUtc) ||
-            invokedAt.isAtSameMomentAs(toUtc)));
+    assert(
+        (fromUtc == null || !invokedAt.isBefore(fromUtc)) &&
+            (toUtc == null || !invokedAt.isBefore(toUtc)),
+        "The time range included future time is forbidden");
 
     if (fromUtc == null && toUtc == null) {
       throw RangeError("Providing both null range is forbidden");
     } else if (fromUtc != null && toUtc != null) {
-      assert(fromUtc.isBefore(toUtc));
+      assert(!fromUtc.isAfter(toUtc), "Reversed time range applied");
     }
 
     return this.where((nodes) =>
-        !(fromUtc?.isBefore(nodes.recordedAt) ?? false) &&
-        !(toUtc?.isAfter(nodes.recordedAt) ?? false));
+        !(fromUtc?.isAfter(nodes.recordedAt) ?? false) &&
+        !(toUtc?.isBefore(nodes.recordedAt) ?? false));
+  }
+}
+
+extension UnmodifiableBodyTemperatureRecordNodeListExtension<
+    N extends BodyTemperatureRecordNode> on UnmodifiableListView<N> {
+  void sortByRecordedDate() {
+    throw new UnsupportedError(
+        "Can not sort recorded date in unmodifiable list");
+  }
+
+  void sortByTemperature() {
+    throw new UnsupportedError("Can not sort temperature in unmodifiable list");
   }
 }
 
@@ -66,5 +83,6 @@ mixin ProfileBodyTemperatureRecordListMixin<P extends Profile,
   Iterable<N> whereClassified(Classification classification,
           {bool strict = false}) =>
       this.where((nodes) =>
-          profile.animal.classify(nodes.temperature) == classification);
+          profile.animal.classify(nodes.temperature, strict: strict) ==
+          classification);
 }
