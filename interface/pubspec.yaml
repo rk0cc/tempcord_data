@@ -1,6 +1,6 @@
 name: tempcord_data_interface
 description: Standarized object model of Tempcord data
-version: 1.0.0
+version: 1.0.0+1
 environment: 
   sdk: ">=2.16.0 <3.0.0"
 homepage: https://github.com/rk0cc/tempcord_data
