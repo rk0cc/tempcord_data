@@ -1,5 +1,7 @@
 # Standard interface and type of Tempcord object data
 
+[![Pub Version](https://img.shields.io/pub/v/tempcord_data_interface?style=flat-square)](https://pub.dev/packages/tempcord_data_interface)
+
 This package provides standarised interface to record animal body temperature as a Dart object.
 
 ## Provided interface
