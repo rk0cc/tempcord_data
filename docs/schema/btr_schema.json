@@ -1,0 +1,29 @@
+{
+    "$schema": "https://specs.frictionlessdata.io/schemas/table-schema.json",
+    "fields": [
+        {
+            "name": "temp",
+            "title": "temp",
+            "constraints": {
+                "required": true,
+                "type": "http://www.w3.org/2001/XMLSchema#float"
+            }
+        },
+        {
+            "name": "unit",
+            "title": "unit",
+            "constraints": {
+                "required": true,
+                "type": "http://www.w3.org/2001/XMLSchema#string"
+            }
+        },
+        {
+            "name": "recordeAt",
+            "title": "recordeAt",
+            "constraints": {
+                "required": true,
+                "type": "http://www.w3.org/2001/XMLSchema#dateTime"
+            }
+        }
+    ]
+}
