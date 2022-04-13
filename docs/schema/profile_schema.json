@@ -1,0 +1,103 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$comment": "This schema is uses for reference only, please extend ",
+    "description": "A schema that define profile section of Tempcord which uses JSON format",
+    "type": "object",
+    "minProperties": 2,
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Name of profile.",
+            "minLength": 1
+        },
+        "animal": {
+            "type": "integer",
+            "enum": [
+                0
+            ],
+            "description": "An integer of animal type which refer to enum index of `Animal` ( https://pub.dev/documentation/tempcord_data_interface/latest/type/Animal.html#constants )."
+        },
+        "id": {
+            "type": [
+                "integer",
+                "string"
+            ],
+            "description": "Identify of this profile which get from API, it must be Comparable in Dart."
+        },
+        "image": {
+            "type": [
+                "string",
+                "null"
+            ],
+            "description": "Base64 string of profile's PNG or JPEG image, it can be nulled if not applied."
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "image": {
+                        "type": "string"
+                    }
+                }
+            },
+            "then": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "image": {
+                                "contentEncoding": "base64",
+                                "contentMediaType": "image/png"
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "image": {
+                                "contentEncoding": "base64",
+                                "contentMediaType": "image/jpeg"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "id": {
+                        "minimum": 0
+                    }
+                }
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "then": {
+                "properties": {
+                    "id": {
+                        "minLength": 16
+                    }
+                }
+            }
+        }
+    ],
+    "required": [
+        "name",
+        "animal"
+    ],
+    "additionalProperties": true
+}

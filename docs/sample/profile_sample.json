@@ -1,0 +1,7 @@
+{
+    "$schema": "../schema/profile_schema.json",
+    "name": "Foo",
+    "animal": 0,
+    "image": "(Base64 encoded PNG or JPEG)",
+    "id": 0
+}
