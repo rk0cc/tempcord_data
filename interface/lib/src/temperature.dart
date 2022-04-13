@@ -5,6 +5,7 @@ const String _c = "\u{2103}", _f = "\u{2109}";
 
 /// An object that describe thermal of the animal.
 @immutable
+@sealed
 abstract class Temperature implements Comparable<Temperature> {
   /// A [double] that describe measure in this [unit].
   double get value;
@@ -93,7 +94,6 @@ abstract class Temperature implements Comparable<Temperature> {
   Temperature operator -(Object subtract);
 }
 
-@immutable
 abstract class _Temperature implements Temperature {
   @override
   final double value;
@@ -150,8 +150,6 @@ abstract class _Temperature implements Temperature {
 }
 
 /// A common [Temperature] unit uses most contries and regions.
-@immutable
-@sealed
 class Celsius extends _Temperature {
   /// Construct [Celsius] with [value] of measurment.
   Celsius(double value) : super(value);
@@ -182,8 +180,6 @@ class Celsius extends _Temperature {
 }
 
 /// Another unit for describing [Temperature] in some countries and regions.
-@immutable
-@sealed
 class Fahrenheit extends _Temperature {
   /// Construct [Fahrenheit] with [value] of measurment.
   Fahrenheit(double value) : super(value);

@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'temperature.dart';
 
 /// Classify does [Animal]'s body [Temperature] stay a suitable range.
@@ -13,6 +15,7 @@ enum Classification {
 }
 
 /// Metadata to define [Animal]'s body temperature [Classification].
+@sealed
 class _BodyTemperatureMetadata {
   /// Minimum of [Temperature] range for [Animal] that [classify] as
   /// [Classification.normal].

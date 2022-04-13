@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Reannotate `@sealed` and `@immutable`.
+
 ## 1.0.1
 
 * Remove unnessary extension of unmodifiable list of record node.
