@@ -1,0 +1,6 @@
+// This schema provides mandatory attribute in CSV only.
+version 1.2
+@totalColumns
+temp: regexp("-?[0-9]+(\.[0-9]+)?")
+unit: length(1) is("℃") or is("℉")
+recordedAt: notEmpty // Should be ISO 8601 date time in UTC (Z ended) 
