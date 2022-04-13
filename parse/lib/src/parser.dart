@@ -11,7 +11,8 @@ import 'handlers/record.dart';
 @sealed
 class TempcordDataParser<P extends ProfileJsonMixin,
     N extends BodyTemperatureRecordNodeCsvRowMixin> {
-  static const _dataDivider = "\u{241E}";
+  static const String _dataDivider = "\u{241E}";
+
   final List<TempcordDataConverter<Object>> _converters;
 
   TempcordDataParser._(this._converters);
@@ -23,7 +24,7 @@ class TempcordDataParser<P extends ProfileJsonMixin,
       TempcordDataParser._(<TempcordDataConverter<Object>>[
         profileConverter,
         btrlConverter
-      ]..addAll(additionalConverter ?? []));
+      ]..addAll(additionalConverter ?? <TempcordDataConverter<Object>>[]));
 
   String _dataToStr(List<Object> datas) {
     assert(datas.length == _converters.length,
@@ -59,8 +60,9 @@ extension TempcordDataParserByteHandleExtension<P extends ProfileJsonMixin,
           {required P profile,
           required BodyTemperatureRecordListCsv<N> btr,
           List<Object>? addition}) =>
-      UnmodifiableUint8ListView(Uint8List.fromList(lzma.encode(
-          utf8.encode(_dataToStr([profile, btr]..addAll(addition ?? []))))));
+      UnmodifiableUint8ListView(Uint8List.fromList(lzma.encode(utf8.encode(
+          _dataToStr(
+              <Object>[profile, btr]..addAll(addition ?? <Object>[]))))));
 
   List<Object> readBytes(Uint8List bytes) =>
       _strToData(utf8.decode(lzma.decode(bytes)));
