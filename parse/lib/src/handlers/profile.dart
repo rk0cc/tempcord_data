@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:tempcord_data_interface/interface.dart' show Profile;
 
