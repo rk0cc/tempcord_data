@@ -51,11 +51,7 @@ class TempcordDataParser<P extends ProfileJsonMixin,
 
     return List.unmodifiable(dataObj);
   }
-}
 
-extension TempcordDataParserByteHandleExtension<P extends ProfileJsonMixin,
-        N extends BodyTemperatureRecordNodeCsvRowMixin>
-    on TempcordDataParser<P, N> {
   Uint8List writeBytes(
           {required P profile,
           required BodyTemperatureRecordListCsv<N> btr,
