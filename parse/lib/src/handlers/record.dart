@@ -26,12 +26,13 @@ class CsvRowItemMismatchedError extends StateError {
   }
 }
 
-mixin BodyTemperatureRecordNodeCsvRowMixin on BodyTemperatureRecordNode {
+abstract class BodyTemperatureRecordNodeCsvRow
+    implements BodyTemperatureRecordNode {
   CsvRow toCsvRow();
 }
 
 mixin BodyTemperatureRecordListCsvMixin<
-    N extends BodyTemperatureRecordNodeCsvRowMixin> on ListMixin<N> {
+    N extends BodyTemperatureRecordNodeCsvRow> on ListMixin<N> {
   CsvAttribute get attributes;
 
   Csv _toCsv(bool unmodified) {
@@ -58,7 +59,7 @@ mixin BodyTemperatureRecordListCsvMixin<
 }
 
 abstract class BodyTemperatureRecordListCsv<
-        N extends BodyTemperatureRecordNodeCsvRowMixin> extends ListBase<N>
+        N extends BodyTemperatureRecordNodeCsvRow> extends ListBase<N>
     with BodyTemperatureRecordListCsvMixin<N> {
   factory BodyTemperatureRecordListCsv(CsvAttribute attrubutes,
       [Iterable<N>? source]) = _BodyTemperatureRecordListCsv<N>;
@@ -68,8 +69,8 @@ abstract class BodyTemperatureRecordListCsv<
       UnmodifiableBodyTemperatureRecordListCsv<N>;
 }
 
-class _BodyTemperatureRecordListCsv<
-        N extends BodyTemperatureRecordNodeCsvRowMixin> extends ListBase<N>
+class _BodyTemperatureRecordListCsv<N extends BodyTemperatureRecordNodeCsvRow>
+    extends ListBase<N>
     with BodyTemperatureRecordListCsvMixin<N>
     implements BodyTemperatureRecordListCsv<N> {
   @override
@@ -96,7 +97,7 @@ class _BodyTemperatureRecordListCsv<
 }
 
 class UnmodifiableBodyTemperatureRecordListCsv<
-        N extends BodyTemperatureRecordNodeCsvRowMixin>
+        N extends BodyTemperatureRecordNodeCsvRow>
     extends UnmodifiableListView<N>
     with BodyTemperatureRecordListCsvMixin<N>
     implements BodyTemperatureRecordListCsv<N> {
@@ -111,7 +112,7 @@ class UnmodifiableBodyTemperatureRecordListCsv<
 }
 
 abstract class BodyTemperatureRecordListCsvConverter<
-        N extends BodyTemperatureRecordNodeCsvRowMixin>
+        N extends BodyTemperatureRecordNodeCsvRow>
     implements TempcordDataConverter<BodyTemperatureRecordListCsv<N>> {
   static const ListToCsvConverter csvEncoder = ListToCsvConverter(eol: "\n");
   static const CsvToListConverter csvDecoder =

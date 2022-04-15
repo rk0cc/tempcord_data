@@ -9,8 +9,8 @@ import 'handlers/profile.dart';
 import 'handlers/record.dart';
 
 @sealed
-class TempcordDataParser<P extends ProfileJsonMixin,
-    N extends BodyTemperatureRecordNodeCsvRowMixin> {
+class TempcordDataParser<P extends ProfileJson,
+    N extends BodyTemperatureRecordNodeCsvRow> {
   static const String _dataDivider = "\u{241E}";
 
   final List<TempcordDataConverter<Object>> _converters;

@@ -5,11 +5,11 @@ import 'package:tempcord_data_interface/interface.dart' show Profile;
 import '../typedef.dart' show Json;
 import 'converter.dart';
 
-mixin ProfileJsonMixin on Profile {
+abstract class ProfileJson implements Profile {
   Json toJson();
 }
 
-abstract class ProfileJsonDataConverter<P extends ProfileJsonMixin>
+abstract class ProfileJsonDataConverter<P extends ProfileJson>
     implements TempcordDataConverter<P> {
   @override
   P decodeData(String dataStr);
