@@ -7,7 +7,7 @@ homepage: https://github.com/rk0cc/tempcord_data
 repository: https://github.com/rk0cc/tempcord_data/tree/main/parse_generic
 issue_tracker: https://github.com/rk0cc/tempcord_data/issues
 dependencies:
-  tempcord_data_interface: ^1.0.2
+  tempcord_data_interface: ^1.1.0
   meta: ^1.7.0
   csv: ^5.0.1
   lzma: ^1.0.1
