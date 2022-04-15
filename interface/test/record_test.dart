@@ -54,8 +54,7 @@ void main() {
       });
     });
     group("profile mixin", () {
-      MockProfileRecordList mprl = MockProfileRecordList(
-          MockProfile("Foo", Animal.human), <MockRecordNode>[
+      List<MockRecordNode> mrn = <MockRecordNode>[
         MockRecordNode(
             Celsius(37.8), DateTime(2021, 12, 31)), // Hyperthermia (strict)
         MockRecordNode(
@@ -66,7 +65,9 @@ void main() {
         MockRecordNode(Fahrenheit(99.0), DateTime(2021, 3, 1)), // Normal
         MockRecordNode(Fahrenheit(94), DateTime(2020, 7, 1)), // Hypothermia
         MockRecordNode(Celsius(34.5), DateTime(2021, 5, 3)) // Hypothermia
-      ]);
+      ];
+      MockProfileRecordList mprl =
+          MockProfileRecordList(MockProfile("Foo", Animal.human), mrn);
 
       test(
           "low temp",
@@ -86,6 +87,17 @@ void main() {
                 .whereClassified(Classification.hyperthermia, strict: true)
                 .length,
             equals(4));
+      });
+
+      test("no extension method called for mixin implemented list", () {
+        expect(
+            () => mrn.whereClassifiedByProfile(
+                MockProfile("Bar", Animal.human), Classification.normal),
+            returnsNormally);
+        expect(
+            () => mprl.whereClassifiedByProfile(
+                MockProfile("Baz", Animal.human), Classification.normal),
+            throwsUnsupportedError);
       });
     });
   });

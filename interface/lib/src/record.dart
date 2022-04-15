@@ -66,6 +66,40 @@ extension BodyTemperatureRecordNodeListExtension<
   }
 }
 
+/// An extension that fetch A [List] that related to [BodyTemoeratureRecordNode]
+/// by [Profile].
+extension BodyTemperatureRecordListProfileExtension<
+    N extends BodyTemperatureRecordNode> on List<N> {
+  Iterable<N> _whereClassifiedByProfile(
+          Profile profile, Classification classification,
+          {bool strict = false}) =>
+      this.where((nodes) =>
+          profile.animal.classify(nodes.temperature, strict: strict) ==
+          classification);
+
+  /// Find [where] [N] classified to related [classification] depending
+  /// animal type of [profile].
+  ///
+  /// If [strict] enabled, the condition of [Classification.hyperthermia] uses
+  /// lower [Temperature] one.
+  ///
+  /// This method **can not** be called in
+  /// [ProfileBodyTemperatureRecordListMixin] which it provides
+  /// [ProfileBodyTemperatureRecordListMixin.whereClassified] for
+  /// [ProfileBodyTemperatureRecordListMixin.profile].
+  Iterable<N> whereClassifiedByProfile(
+      Profile profile, Classification classification,
+      {bool strict = false}) {
+    if (this is ProfileBodyTemperatureRecordListMixin) {
+      throw new UnsupportedError(
+          "Profile given list mixin can not use this method");
+    }
+
+    return this
+        ._whereClassifiedByProfile(profile, classification, strict: strict);
+  }
+}
+
 /// A mixin that added feature that rely on [Profile] and it's subclasses.
 mixin ProfileBodyTemperatureRecordListMixin<P extends Profile,
     N extends BodyTemperatureRecordNode> on List<N> {
@@ -76,7 +110,6 @@ mixin ProfileBodyTemperatureRecordListMixin<P extends Profile,
   /// animal type of [Profile].
   Iterable<N> whereClassified(Classification classification,
           {bool strict = false}) =>
-      this.where((nodes) =>
-          profile.animal.classify(nodes.temperature, strict: strict) ==
-          classification);
+      this._whereClassifiedByProfile(this.profile, classification,
+          strict: strict);
 }

@@ -1,3 +1,9 @@
+## 1.1.0
+
+* Provides another extension handle recorded node to fetch data with profile.
+    * This can not be called in with profile implemented mixin.
+* Remove redundent annotation.
+
 ## 1.0.2
 
 * Reannotate `@sealed` and `@immutable`.
