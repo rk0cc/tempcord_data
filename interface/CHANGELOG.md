@@ -3,6 +3,8 @@
 * Provides another extension handle recorded node to fetch data with profile.
     * This can not be called in with profile implemented mixin.
 * Remove redundent annotation.
+* Document Celsius and Fahrenit factory method.
+* Direct inherit `Temperature`'s subclasses.
 
 ## 1.0.2
 

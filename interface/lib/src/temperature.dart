@@ -4,18 +4,22 @@ import 'package:quiver/core.dart';
 const String _c = "\u{2103}", _f = "\u{2109}";
 
 /// An object that describe thermal of the animal.
+///
+/// This object defined 2 subtype of [Temperature]: [Celsius] and [Fahrenheit].
 @immutable
 @sealed
 abstract class Temperature implements Comparable<Temperature> {
   /// A [double] that describe measure in this [unit].
-  double get value;
+  final double value;
+
+  Temperature._(this.value) : assert(value.isFinite);
 
   /// A symbol that repersenting this [Temperature].
   String get unit;
 
   /// Get a [Temperature] from raw data of [value] and [unit] [symbol].
   ///
-  /// If [symbol] is provided, value can be either [double] or numeric
+  /// If [symbol] is provided, value can be either [num] or numeric
   /// [String]. Otherwise, [value] must be a [String] and last charther must be
   /// validated [unit].
   ///
@@ -56,50 +60,6 @@ abstract class Temperature implements Comparable<Temperature> {
     throw TypeError();
   }
 
-  @override
-  int compareTo(Temperature other);
-
-  /// Calculate hashed of [unit], [value] and [runtimeType].
-  @override
-  int get hashCode;
-
-  /// Check this [Temperature] has same [hashCode] with [other].
-  ///
-  /// For checking this [Temperauter] is repersenting same [Temperature] in
-  /// measurment, use [equalsInMeasure] insteaded.
-  @override
-  bool operator ==(Object? other);
-
-  /// Check this [Temperature] has greater measurment of [other].
-  bool operator >(Temperature other);
-
-  /// Check this [Temperature] has lower measurment of [other].
-  bool operator <(Temperature other);
-
-  /// Check this [Temperature] has greater or equal measurment of [other].
-  bool operator >=(Temperature other);
-
-  /// Check this [Temperature] has lower or equal measurment of [other].
-  bool operator <=(Temperature other);
-
-  /// Check this [Temperature] has the same measurment of [other].
-  ///
-  /// For checking is equal with same [Object], use [==] insteaded.
-  bool equalsInMeasure(Temperature other);
-
-  /// Add [num] or [Temperature] in the same measurment.
-  Temperature operator +(Object add);
-
-  /// Subtract [num] or [Temperature] in the same measurment.
-  Temperature operator -(Object subtract);
-}
-
-abstract class _Temperature implements Temperature {
-  @override
-  final double value;
-
-  _Temperature(this.value) : assert(value.isFinite);
-
   Temperature _toSameUnit(Temperature other);
 
   double _getOtherValue(Object other) {
@@ -112,6 +72,11 @@ abstract class _Temperature implements Temperature {
     throw TypeError();
   }
 
+  /// Compare this [Temperature] to [other] in the same measurment.
+  ///
+  /// If this measurment is higher than [other], it return positive [int] and
+  /// vice versa. It return `0` when this and [other] are the same measurment
+  /// [value].
   @override
   int compareTo(Temperature other) {
     Temperature sameUnit = _toSameUnit(other);
@@ -127,33 +92,50 @@ abstract class _Temperature implements Temperature {
     return 0;
   }
 
+  /// Calculate hashed of [unit], [value] and [runtimeType].
   @override
   int get hashCode => hash3(runtimeType, value, unit);
 
+  /// Check this [Temperature] has same [hashCode] with [other].
+  ///
+  /// For checking this [Temperauter] is repersenting same [Temperature] in
+  /// measurment, use [equalsInMeasure] insteaded.
   @override
   bool operator ==(Object? other) => this.hashCode == other.hashCode;
 
-  @override
+  /// Check this [Temperature] has greater measurment of [other].
   bool operator >(Temperature other) => compareTo(other) > 0;
 
-  @override
+  /// Check this [Temperature] has lower measurment of [other].
   bool operator <(Temperature other) => compareTo(other) < 0;
 
-  @override
+  /// Check this [Temperature] has greater or equal measurment of [other].
   bool operator >=(Temperature other) => compareTo(other) >= 0;
 
-  @override
+  /// Check this [Temperature] has lower or equal measurment of [other].
   bool operator <=(Temperature other) => compareTo(other) <= 0;
 
-  @override
+  /// Check this [Temperature] has the same measurment of [other].
+  ///
+  /// For checking is equal with same [Object], use [==] insteaded.
   bool equalsInMeasure(Temperature other) => compareTo(other) == 0;
+
+  /// Add [num] or [Temperature] in the same measurment.
+  ///
+  /// If [add] is [num], it assume [add] is using same unit on this
+  /// [Temperature].
+  Temperature operator +(Object add);
+
+  /// Subtract [num] or [Temperature] in the same measurment.
+  Temperature operator -(Object subtract);
 }
 
 /// A common [Temperature] unit uses most contries and regions.
-class Celsius extends _Temperature {
+class Celsius extends Temperature {
   /// Construct [Celsius] with [value] of measurment.
-  Celsius(double value) : super(value);
+  Celsius(double value) : super._(value);
 
+  /// Convert [fahrenheit]'s [value] to same measure in [Celsius].
   factory Celsius.fromFahrenheit(Fahrenheit fahrenheit) =>
       Celsius((fahrenheit.value - 32) * 5 / 9);
 
@@ -180,10 +162,11 @@ class Celsius extends _Temperature {
 }
 
 /// Another unit for describing [Temperature] in some countries and regions.
-class Fahrenheit extends _Temperature {
+class Fahrenheit extends Temperature {
   /// Construct [Fahrenheit] with [value] of measurment.
-  Fahrenheit(double value) : super(value);
+  Fahrenheit(double value) : super._(value);
 
+  /// Convert [celsius]'s [value] to same measure in [Fahrenheit].
   factory Fahrenheit.fromCelsius(Celsius celsius) =>
       Fahrenheit((celsius.value * 9 / 5) + 32);
 
