@@ -1,4 +1,4 @@
-//@Skip("Mock object not implemented yet")
+@Skip("Mock object not implemented yet")
 
 import 'dart:convert';
 
@@ -37,6 +37,10 @@ void main() {
         expect(mp.animal, equals(Animal.human));
         expect(mp.dob.isAtSameMomentAs(DateTime.utc(2000, 1, 1)), isTrue);
       });
+    });
+    group("btr", () {
+      BodyTemperatureRecordListCsv btrlc =
+          BodyTemperatureRecordListCsv(["temp", "unit", "recordedAt"]);
     });
   });
 }

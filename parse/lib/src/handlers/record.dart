@@ -61,24 +61,25 @@ mixin BodyTemperatureRecordListCsvMixin<
 abstract class BodyTemperatureRecordListCsv<
         N extends BodyTemperatureRecordNodeCsvRow> extends ListBase<N>
     with BodyTemperatureRecordListCsvMixin<N> {
-  factory BodyTemperatureRecordListCsv(CsvAttribute attrubutes,
-      [Iterable<N>? source]) = _BodyTemperatureRecordListCsv<N>;
+  factory BodyTemperatureRecordListCsv(CsvRow attrubutes,
+      [Iterable<N>? source]) = BodyTemperatureRecordListCsvBase<N>;
 
   factory BodyTemperatureRecordListCsv.unmodifiable(
           CsvAttribute attribute, Iterable<N> source) =
       UnmodifiableBodyTemperatureRecordListCsv<N>;
 }
 
-class _BodyTemperatureRecordListCsv<N extends BodyTemperatureRecordNodeCsvRow>
-    extends ListBase<N>
+class BodyTemperatureRecordListCsvBase<
+        N extends BodyTemperatureRecordNodeCsvRow> extends ListBase<N>
     with BodyTemperatureRecordListCsvMixin<N>
     implements BodyTemperatureRecordListCsv<N> {
   @override
   final CsvAttribute attributes;
   final List<N> _nodes;
 
-  _BodyTemperatureRecordListCsv(this.attributes, [Iterable<N>? source])
-      : _nodes = source == null ? <N>[] : List.from(source);
+  BodyTemperatureRecordListCsvBase(CsvRow attributes, [Iterable<N>? source])
+      : this.attributes = UnmodifiableListView(attributes),
+        _nodes = source == null ? <N>[] : List.from(source);
 
   @override
   set length(int length) => _nodes.length = length;
