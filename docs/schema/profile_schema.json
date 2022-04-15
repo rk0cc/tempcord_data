@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$comment": "This schema is uses for reference only, please extend ",
+    "$comment": "This schema is uses for reference only, please extend what you needed",
     "description": "A schema that define profile section of Tempcord which uses JSON format",
     "type": "object",
     "minProperties": 2,
