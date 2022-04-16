@@ -69,7 +69,11 @@ mixin BodyTemperatureRecordListCsvMixin<
     return unmodified ? List.unmodifiable(csv) : List.from(csv);
   }
 
+  /// {@template btrl2Csv}
+  ///
   /// Export items in this [List] to CSV in Dart object.
+  ///
+  /// {@endtemplate}
   Csv toCsv();
 }
 
@@ -77,6 +81,10 @@ mixin BodyTemperatureRecordListCsvMixin<
 abstract class BodyTemperatureRecordListCsv<
         N extends BodyTemperatureRecordNodeCsvRow> extends ListBase<N>
     with BodyTemperatureRecordListCsvMixin<N> {
+  /// An attribute that should be predefined if meet requirement of data
+  /// standard.
+  static CsvRow get predefinedAttribute => ["temp", "unit", "recordedAt"];
+
   /// Construct a growable [List] with provided [attribute].
   ///
   /// It can be parsed from [source] with existed item.
@@ -99,6 +107,34 @@ abstract class BodyTemperatureRecordListCsv<
         ? UnmodifiableBodyTemperatureRecordListCsv(copiedAttr, csv)
         : BodyTemperatureRecordListCsvBase(copiedAttr, csv);
   }
+
+  /// Set a new [length] of this [List].
+  @override
+  set length(int length);
+
+  /// Current items exist in this [List].
+  @override
+  int get length;
+
+  /// Return [Iterator] that iterating this [List].
+  @override
+  Iterator<N> get iterator;
+
+  /// Append [element] to this [List].
+  @override
+  void add(N element);
+
+  /// Remove provided [element] in this [List].
+  @override
+  bool remove(Object? element);
+
+  /// Get an item which in [index].
+  @override
+  N operator [](int index);
+
+  /// Assign new [value] on provided [index].
+  @override
+  void operator []=(int index, N value);
 }
 
 /// An implemented [BodyTemperatureRecordListCsv] that function like a [List].
@@ -108,8 +144,13 @@ class BodyTemperatureRecordListCsvBase<
     implements BodyTemperatureRecordListCsv<N> {
   @override
   final CsvAttribute attributes;
+
   final List<N> _nodes;
 
+  /// Construct [BodyTemperatureRecordListCsvBase] with given [attributes].
+  ///
+  /// By default, it return a empty [List]. If [source] provided, the origin
+  /// [Iterable] will be applied.
   BodyTemperatureRecordListCsvBase(CsvRow attributes, [Iterable<N>? source])
       : this.attributes = UnmodifiableListView(attributes),
         _nodes = source == null ? <N>[] : List.from(source);
@@ -148,22 +189,45 @@ class UnmodifiableBodyTemperatureRecordListCsv<
   @override
   final CsvAttribute attributes;
 
+  /// Construct a [List] from origin [source] and disallow modification on
+  /// this [List].
   UnmodifiableBodyTemperatureRecordListCsv(
       CsvRow attributes, Iterable<N> source)
       : this.attributes = UnmodifiableListView<String>(attributes),
         super(List.from(source));
 
+  /// {@macro btrl2Csv}
+  ///
+  /// However, every [String] contains in every [List] also can not be modified.
   @override
   Csv toCsv() => _toCsv(true);
 }
 
+/// A [TempcordDataConverter] for handle conversion between
+/// [BodyTemperatureRecordListCsv] and a [String] of 2D [List].
+///
+/// It predefined [ListToCsvConverter] and [CsvToListConverter] which suppose to
+/// be used for standarise file data and discourage to use custom constructed
+/// converter.
+///
+/// The expected result should be liked this:
+/// ```csv
+/// temp,unit,recordedAt
+/// 36.0,℃,2021-02-23T09:02:42.000Z
+/// 35.9,℃,2021-04-13T13:34:59.000Z
+/// 37.1,℃,2021-12-09T03:17:20.000Z
+/// ```
 abstract class BodyTemperatureRecordListCsvConverter<
         N extends BodyTemperatureRecordNodeCsvRow>
     implements TempcordDataConverter<BodyTemperatureRecordListCsv<N>> {
+  /// Provided converter that convert [List] to CSV [String].
   static const ListToCsvConverter csvEncoder = ListToCsvConverter(eol: "\n");
+
+  /// Provided converter that convert CSV [String] to [List].
   static const CsvToListConverter csvDecoder =
       CsvToListConverter(eol: "\n", shouldParseNumbers: false);
 
+  /// Construct converter for converting [BodyTemperatureRecordListCsv].
   const BodyTemperatureRecordListCsvConverter();
 
   @override
