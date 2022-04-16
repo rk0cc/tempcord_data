@@ -67,6 +67,15 @@ abstract class BodyTemperatureRecordListCsv<
   factory BodyTemperatureRecordListCsv.unmodifiable(
           CsvAttribute attribute, Iterable<N> source) =
       UnmodifiableBodyTemperatureRecordListCsv<N>;
+
+  factory BodyTemperatureRecordListCsv.copy(BodyTemperatureRecordListCsv<N> csv,
+      {bool unmodifiable = false}) {
+    CsvAttribute copiedAttr = UnmodifiableListView(csv.attributes);
+
+    return unmodifiable
+        ? UnmodifiableBodyTemperatureRecordListCsv(copiedAttr, csv)
+        : BodyTemperatureRecordListCsvBase(copiedAttr, csv);
+  }
 }
 
 class BodyTemperatureRecordListCsvBase<
@@ -88,6 +97,13 @@ class BodyTemperatureRecordListCsvBase<
   int get length => _nodes.length;
 
   @override
+  void add(N element) => _nodes
+      .add(element); // See this: https://github.com/dart-lang/sdk/issues/46646
+
+  @override
+  bool remove(Object? element) => _nodes.remove(element);
+
+  @override
   N operator [](int index) => _nodes[index];
 
   @override
@@ -106,7 +122,7 @@ class UnmodifiableBodyTemperatureRecordListCsv<
   final CsvAttribute attributes;
 
   UnmodifiableBodyTemperatureRecordListCsv(this.attributes, Iterable<N> source)
-      : super(source);
+      : super(List.from(source));
 
   @override
   Csv toCsv() => _toCsv(true);

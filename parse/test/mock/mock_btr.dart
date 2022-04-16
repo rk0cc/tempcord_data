@@ -1,4 +1,5 @@
 import 'package:tempcord_data_parser/handlers.dart';
+import 'package:tempcord_data_parser/src/typedef.dart';
 
 class MockBTRN implements BodyTemperatureRecordNodeCsvRow {
   @override
@@ -19,4 +20,14 @@ class MockBTRN implements BodyTemperatureRecordNodeCsvRow {
         temperature.unit,
         recordedAt.toIso8601String()
       ];
+}
+
+class OversizedMockBTRN extends MockBTRN {
+  final int stuff;
+
+  OversizedMockBTRN(Temperature temperature, DateTime recordedAt, this.stuff)
+      : super(temperature, recordedAt);
+
+  @override
+  CsvRow toCsvRow() => super.toCsvRow()..add(stuff.toString());
 }

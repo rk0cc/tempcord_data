@@ -1,4 +1,5 @@
 import 'package:tempcord_data_parser/handlers.dart';
+import 'package:tempcord_data_parser/src/typedef.dart';
 
 class MockProfile implements ProfileJson {
   final String name;
