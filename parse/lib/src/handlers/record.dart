@@ -65,7 +65,7 @@ abstract class BodyTemperatureRecordListCsv<
       [Iterable<N>? source]) = BodyTemperatureRecordListCsvBase<N>;
 
   factory BodyTemperatureRecordListCsv.unmodifiable(
-          CsvAttribute attribute, Iterable<N> source) =
+          CsvRow attribute, Iterable<N> source) =
       UnmodifiableBodyTemperatureRecordListCsv<N>;
 
   factory BodyTemperatureRecordListCsv.copy(BodyTemperatureRecordListCsv<N> csv,
@@ -121,8 +121,10 @@ class UnmodifiableBodyTemperatureRecordListCsv<
   @override
   final CsvAttribute attributes;
 
-  UnmodifiableBodyTemperatureRecordListCsv(this.attributes, Iterable<N> source)
-      : super(List.from(source));
+  UnmodifiableBodyTemperatureRecordListCsv(
+      CsvRow attributes, Iterable<N> source)
+      : this.attributes = UnmodifiableListView<String>(attributes),
+        super(List.from(source));
 
   @override
   Csv toCsv() => _toCsv(true);
@@ -134,6 +136,8 @@ abstract class BodyTemperatureRecordListCsvConverter<
   static const ListToCsvConverter csvEncoder = ListToCsvConverter(eol: "\n");
   static const CsvToListConverter csvDecoder =
       CsvToListConverter(eol: "\n", shouldParseNumbers: false);
+
+  const BodyTemperatureRecordListCsvConverter();
 
   @override
   BodyTemperatureRecordListCsv<N> decodeData(String dataStr);

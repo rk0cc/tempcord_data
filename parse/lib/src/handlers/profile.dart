@@ -11,6 +11,8 @@ abstract class ProfileJson implements Profile {
 
 abstract class ProfileJsonDataConverter<P extends ProfileJson>
     implements TempcordDataConverter<P> {
+  const ProfileJsonDataConverter();
+
   @override
   P decodeData(String dataStr);
 
