@@ -6,7 +6,7 @@ import 'package:tempcord_data_interface/interface.dart'
     show BodyTemperatureRecordNode;
 
 import '../typedef.dart' show CsvAttribute, CsvRow, Csv;
-import 'converter.dart';
+import '../converter.dart';
 
 @sealed
 class CsvRowItemMismatchedError extends StateError {

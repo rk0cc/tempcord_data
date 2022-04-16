@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:lzma/lzma.dart';
 import 'package:meta/meta.dart';
 
-import 'handlers/converter.dart';
+import 'converter.dart';
 import 'handlers/profile.dart';
 import 'handlers/record.dart';
 

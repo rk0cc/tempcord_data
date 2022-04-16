@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:tempcord_data_interface/interface.dart' show Profile;
 
 import '../typedef.dart' show Json;
-import 'converter.dart';
+import '../converter.dart';
 
 abstract class ProfileJson implements Profile {
   Json toJson();
