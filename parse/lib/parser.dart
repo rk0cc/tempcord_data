@@ -1,3 +1,4 @@
+/// Handle how Tempcord data read and write between Dart object and bytes.
 library parser;
 
 export 'src/handlers/profile.dart' show ProfileJsonDataConverter;
