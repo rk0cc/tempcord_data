@@ -1,7 +1,7 @@
-//@Skip("Sample data not ready yet")
-
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/parser.dart';
@@ -10,9 +10,6 @@ import 'package:test/test.dart';
 
 import 'mock/mock_btr.dart' hide OversizedMockBTRN;
 import 'mock/mock_profile.dart';
-import 'parse_platform/genreic.dart'
-    if (dart.library.io) "parse_platform/vm.dart"
-    if (dart.library.html) "parse_platform/web.dart";
 
 class MockProfileParser extends ProfileJsonDataConverter<MockProfile> {
   const MockProfileParser();
@@ -53,6 +50,40 @@ void main() {
   ]);
 
   group("Mock read and write test", () {
-    testOnPlatform(mockParser, mp, mbtrns);
-  });
+    late File exported;
+    setUpAll(() {
+      exported = File("./test/assets/exported.tcdtest");
+
+      if (!exported.existsSync()) {
+        exported.createSync(recursive: true);
+      }
+    });
+    test("write test", () {
+      Uint8List dataBytes = mockParser.writeBytes(profile: mp, btr: mbtrns);
+      expect(() => exported.writeAsBytesSync(dataBytes, flush: true),
+          returnsNormally);
+    });
+    test("read test", () {
+      Uint8List readedDataByte = exported.readAsBytesSync();
+      List<Object> decoded = mockParser.readBytes(readedDataByte);
+      MockProfile parsedMockProfile = decoded[0] as MockProfile;
+      BodyTemperatureRecordListCsv<MockBTRN> parsedMockBTRN =
+          decoded[1] as BodyTemperatureRecordListCsv<MockBTRN>;
+
+      expect(parsedMockProfile.name, equals("Sample"));
+      expect(parsedMockProfile.animal, equals(Animal.human));
+      expect(
+          parsedMockBTRN
+              .map((element) => element.temperature)
+              .whereType<Celsius>()
+              .length,
+          equals(3));
+      expect(parsedMockBTRN[0].temperature.value, equals(35));
+    });
+    tearDownAll(() {
+      if (exported.existsSync()) {
+        exported.deleteSync(recursive: true);
+      }
+    });
+  }, testOn: "dart-vm");
 }
