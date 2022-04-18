@@ -92,7 +92,8 @@ abstract class BodyTemperatureRecordListCsv<
   factory BodyTemperatureRecordListCsv(CsvRow attrubutes,
       [Iterable<N>? source]) = BodyTemperatureRecordListCsvBase<N>;
 
-  /// Construct a [BodyTemperatureRecordListCsv] with [predefinedAttribute].
+  /// Construct a [BodyTemperatureRecordListCsv] with [predefinedAttribute]
+  /// which stastified standard data structure of Tempcord.
   factory BodyTemperatureRecordListCsv.defaultAttributes(
           [Iterable<N>? source]) =>
       BodyTemperatureRecordListCsv(predefinedAttribute, source);
