@@ -75,7 +75,8 @@ class _ConverterSet extends SetBase<GenericTempcordDataConverter> {
 @sealed
 class TempcordDataParser<P extends ProfileJson,
     N extends BodyTemperatureRecordNodeCsvRow> {
-  static const String _dataDivider = "\u{241E}";
+  static const String _dataDivider =
+      "\u{241E}\u{efda}\u{e1ab}\u{e711}\u{eee4}\u{eba8}\u{ef7f}\u{eaab}\u{f781}\u{f5ad}\u{eeab}\u{ec26}\u{e780}\u{eadb}\u{ed0c}\u{f6fb}\u{f59f}\u{241E}";
 
   final _ConverterSet _converters;
 
@@ -107,7 +108,10 @@ class TempcordDataParser<P extends ProfileJson,
 
     List<String> dataStr = [];
     for (int i = 0; i < _converters.length; i++) {
-      dataStr.add(_converters.elementAt(i).encodeData(datas[i]));
+      String parsed = _converters.elementAt(i).encodeData(datas[i]);
+      assert(!parsed.contains(_dataDivider),
+          "Encoded data should not contains data divider");
+      dataStr.add(parsed);
     }
 
     return dataStr.join(_dataDivider);

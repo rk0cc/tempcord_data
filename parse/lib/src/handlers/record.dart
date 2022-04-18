@@ -75,9 +75,6 @@ mixin BodyTemperatureRecordListCsvMixin<
   ///
   /// {@endtemplate}
   Csv toCsv();
-
-  @override
-  Csv toData() => toCsv();
 }
 
 /// An implemented [List] for collecting [BodyTemperatureRecordNodeCsvRow].
@@ -94,6 +91,11 @@ abstract class BodyTemperatureRecordListCsv<
   /// It can be parsed from [source] with existed item.
   factory BodyTemperatureRecordListCsv(CsvRow attrubutes,
       [Iterable<N>? source]) = BodyTemperatureRecordListCsvBase<N>;
+
+  /// Construct a [BodyTemperatureRecordListCsv] with [predefinedAttribute].
+  factory BodyTemperatureRecordListCsv.defaultAttributes(
+          [Iterable<N>? source]) =>
+      BodyTemperatureRecordListCsv(predefinedAttribute, source);
 
   /// Construct a ungrowable [List] with provided [attribute] and [source]
   /// that repersenting data of [attribute].

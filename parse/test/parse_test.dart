@@ -5,7 +5,6 @@ import 'dart:typed_data';
 
 import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/parser.dart';
-import 'package:tempcord_data_parser/src/typedef.dart';
 import 'package:test/test.dart';
 
 import 'mock/mock_btr.dart' hide OversizedMockBTRN;

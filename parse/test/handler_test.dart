@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/src/handlers/record.dart'
     show BodyTemperatureRecordListCsvConverter;
-import 'package:tempcord_data_parser/src/typedef.dart';
 import 'package:test/test.dart';
 
 import 'mock/mock_profile.dart';

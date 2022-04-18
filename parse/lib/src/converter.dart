@@ -18,6 +18,15 @@ abstract class TempcordDataConverter<T extends Object,
   const TempcordDataConverter();
 
   /// Encode [data] to stringified under [T] format.
+  ///
+  /// The returned [String] should not contains a data divider from
+  /// [TempcordDataParser]:
+  /// ```dart
+  /// const String dataDivider = "\u{241E}\u{efda}\u{e1ab}\u{e711}\u{eee4}\u{eba8}\u{ef7f}\u{eaab}\u{f781}\u{f5ad}\u{eeab}\u{ec26}\u{e780}\u{eadb}\u{ed0c}\u{f6fb}\u{f59f}\u{241E}"
+  /// ```
+  /// This [String] will be used to isolate various data of
+  /// [TempcordDataConvertedObject] into a single byte data and it should not
+  /// existed in [encodeData].
   String encodeData(TO data);
 
   /// Decode [dataStr] to object [TO].
