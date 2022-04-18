@@ -9,6 +9,5 @@ repository: https://github.com/rk0cc/tempcord_data/tree/main/reader
 issue_tracker: https://github.com/rk0cc/tempcord_data/issues
 dependencies:
   tempcord_data_parser: ^1.0.0
-  http: ^0.13.4
 dev_dependencies: 
   test: ^1.20.2
