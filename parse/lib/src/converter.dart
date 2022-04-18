@@ -17,7 +17,7 @@ abstract class TempcordDataConverter<T extends Object,
   /// Construct a converter for [TO].
   const TempcordDataConverter();
 
-  /// Encode [data] to stringified [T] format.
+  /// Encode [data] to stringified under [T] format.
   String encodeData(TO data);
 
   /// Decode [dataStr] to object [TO].
