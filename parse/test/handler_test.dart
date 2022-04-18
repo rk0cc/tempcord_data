@@ -25,7 +25,7 @@ void main() {
             equals(
                 '{"name":"Foo","animal":0,"dob":"2000-01-01T00:00:00.000Z"}'));
         expect(
-            mp.updateName("Bar").toJson(),
+            jsonEncode(mp.updateName("Bar").toJson()),
             equals(
                 '{"name":"Bar","animal":0,"dob":"2000-01-01T00:00:00.000Z"}'));
       });
