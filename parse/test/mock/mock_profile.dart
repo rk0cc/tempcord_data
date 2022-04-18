@@ -1,7 +1,7 @@
 import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/src/typedef.dart';
 
-class MockProfile implements ProfileJson {
+class MockProfile extends ProfileJson {
   final String name;
   final Animal animal;
   final DateTime dob;

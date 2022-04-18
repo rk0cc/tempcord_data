@@ -5,7 +5,7 @@ import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/parser.dart';
 
 // Construct profile and body temperature record nodes
-class ExampleProfile implements ProfileJson {
+class ExampleProfile extends ProfileJson {
   @override
   final Animal animal;
 

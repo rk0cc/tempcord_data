@@ -1,7 +1,15 @@
-abstract class TempcordDataConverter<T> {
+import 'package:meta/meta.dart';
+
+abstract class TempcordDataConvertedObject<T extends Object> {
+  @protected
+  T toData();
+}
+
+abstract class TempcordDataConverter<T extends Object,
+    TO extends TempcordDataConvertedObject<T>> {
   const TempcordDataConverter();
 
-  String encodeData(T data);
+  String encodeData(TO data);
 
-  T decodeData(String dataStr);
+  TO decodeData(String dataStr);
 }

@@ -8,25 +8,28 @@ import 'converter.dart';
 import 'handlers/profile.dart';
 import 'handlers/record.dart';
 
+typedef GenericTempcordDataConverter
+    = TempcordDataConverter<Object, TempcordDataConvertedObject<Object>>;
+
 @sealed
 class TempcordDataParser<P extends ProfileJson,
     N extends BodyTemperatureRecordNodeCsvRow> {
   static const String _dataDivider = "\u{241E}";
 
-  final List<TempcordDataConverter<Object>> _converters;
+  final List<GenericTempcordDataConverter> _converters;
 
   TempcordDataParser._(this._converters);
 
   factory TempcordDataParser(
           {required ProfileJsonDataConverter<P> profileConverter,
           required BodyTemperatureRecordListCsvConverter<N> btrlConverter,
-          List<TempcordDataConverter<Object>>? additionalConverter}) =>
-      TempcordDataParser._(<TempcordDataConverter<Object>>[
+          List<GenericTempcordDataConverter>? additionalConverter}) =>
+      TempcordDataParser._(<GenericTempcordDataConverter>[
         profileConverter,
         btrlConverter
-      ]..addAll(additionalConverter ?? <TempcordDataConverter<Object>>[]));
+      ]..addAll(additionalConverter ?? <GenericTempcordDataConverter>[]));
 
-  String _dataToStr(List<Object> datas) {
+  String _dataToStr(List<TempcordDataConvertedObject> datas) {
     assert(datas.length == _converters.length,
         "Provided data length must be the same with the applied converter");
 
@@ -38,7 +41,7 @@ class TempcordDataParser<P extends ProfileJson,
     return dataStr.join(_dataDivider);
   }
 
-  List<Object> _strToData(String str) {
+  List<TempcordDataConvertedObject> _strToData(String str) {
     List<String> spiltedData = str.split(_dataDivider);
 
     assert(spiltedData.length == _converters.length,
@@ -55,11 +58,11 @@ class TempcordDataParser<P extends ProfileJson,
   Uint8List writeBytes(
           {required P profile,
           required BodyTemperatureRecordListCsv<N> btr,
-          List<Object>? addition}) =>
+          List<TempcordDataConvertedObject<Object>>? addition}) =>
       UnmodifiableUint8ListView(Uint8List.fromList(lzma.encode(utf8.encode(
-          _dataToStr(
-              <Object>[profile, btr]..addAll(addition ?? <Object>[]))))));
+          _dataToStr(<TempcordDataConvertedObject>[profile, btr]
+            ..addAll(addition ?? <TempcordDataConvertedObject>[]))))));
 
-  List<Object> readBytes(Uint8List bytes) =>
+  List<TempcordDataConvertedObject> readBytes(Uint8List bytes) =>
       _strToData(utf8.decode(lzma.decode(bytes)));
 }

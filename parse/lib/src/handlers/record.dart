@@ -75,12 +75,16 @@ mixin BodyTemperatureRecordListCsvMixin<
   ///
   /// {@endtemplate}
   Csv toCsv();
+
+  @override
+  Csv toData() => toCsv();
 }
 
 /// An implemented [List] for collecting [BodyTemperatureRecordNodeCsvRow].
 abstract class BodyTemperatureRecordListCsv<
         N extends BodyTemperatureRecordNodeCsvRow> extends ListBase<N>
-    with BodyTemperatureRecordListCsvMixin<N> {
+    with BodyTemperatureRecordListCsvMixin<N>
+    implements TempcordDataConvertedObject<Csv> {
   /// An attribute that should be predefined if meet requirement of data
   /// standard.
   static CsvRow get predefinedAttribute => ["temp", "unit", "recordedAt"];
@@ -179,6 +183,9 @@ class BodyTemperatureRecordListCsvBase<
 
   @override
   Csv toCsv() => _toCsv(false);
+
+  @override
+  Csv toData() => toCsv();
 }
 
 class UnmodifiableBodyTemperatureRecordListCsv<
@@ -201,6 +208,9 @@ class UnmodifiableBodyTemperatureRecordListCsv<
   /// However, every [String] contains in every [List] also can not be modified.
   @override
   Csv toCsv() => _toCsv(true);
+
+  @override
+  Csv toData() => toCsv();
 }
 
 /// A [TempcordDataConverter] for handle conversion between
@@ -219,7 +229,7 @@ class UnmodifiableBodyTemperatureRecordListCsv<
 /// ```
 abstract class BodyTemperatureRecordListCsvConverter<
         N extends BodyTemperatureRecordNodeCsvRow>
-    implements TempcordDataConverter<BodyTemperatureRecordListCsv<N>> {
+    implements TempcordDataConverter<Csv, BodyTemperatureRecordListCsv<N>> {
   /// Provided converter that convert [List] to CSV [String].
   static const ListToCsvConverter csvEncoder = ListToCsvConverter(eol: "\n");
 
