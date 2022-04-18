@@ -1,9 +1,7 @@
-@Skip("Sample data not ready yet")
+//@Skip("Sample data not ready yet")
 
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:io' as io;
-import 'dart:html' as html;
 
 import 'package:tempcord_data_parser/handlers.dart';
 import 'package:tempcord_data_parser/parser.dart';
@@ -12,6 +10,9 @@ import 'package:test/test.dart';
 
 import 'mock/mock_btr.dart' hide OversizedMockBTRN;
 import 'mock/mock_profile.dart';
+import 'parse_platform/genreic.dart'
+    if (dart.library.io) "parse_platform/vm.dart"
+    if (dart.library.html) "parse_platform/web.dart";
 
 class MockProfileParser extends ProfileJsonDataConverter<MockProfile> {
   const MockProfileParser();
@@ -44,22 +45,14 @@ void main() {
   MockProfile mp =
       MockProfile("Sample", Animal.human, DateTime.utc(2012, 1, 1));
 
-  group("Mock write test", () {
-    group("on VM", () {
-      late io.File exported;
-      setUpAll(() {
-        exported = io.File("./test/assets/exported.tcdtest");
+  BodyTemperatureRecordListCsv<MockBTRN> mbtrns = BodyTemperatureRecordListCsv(
+      BodyTemperatureRecordListCsv.predefinedAttribute, <MockBTRN>[
+    MockBTRN(Celsius(35), DateTime.utc(2020, 3, 5, 19, 30, 0)),
+    MockBTRN(Celsius(35.7), DateTime.utc(2021, 3, 6, 19, 30, 0)),
+    MockBTRN(Celsius(36.7), DateTime.utc(2021, 3, 6, 19, 45, 0))
+  ]);
 
-        if (!exported.existsSync()) {
-          exported.createSync(recursive: true);
-        }
-      });
-      tearDownAll(() {
-        if (exported.existsSync()) {
-          exported.deleteSync(recursive: true);
-        }
-      });
-    }, testOn: "dart-vm");
-    test("on browser", () {}, testOn: "browser");
+  group("Mock read and write test", () {
+    testOnPlatform(mockParser, mp, mbtrns);
   });
 }
