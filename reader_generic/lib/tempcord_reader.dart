@@ -1,1 +1,0 @@
-library tempcord_reader;
