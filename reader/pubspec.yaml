@@ -1,12 +1,14 @@
-name: tempcord_data_io_generic
-description: Implement reading Tempcord file data without platform specific library uses.
+name: tempcord_data_reader
+description: Read standard Tempcord data from various sources and platforms.
+publish_to: 'none'
 version: 1.0.0
 environment: 
   sdk: ">=2.16.0 <3.0.0"
 homepage: https://github.com/rk0cc/tempcord_data
-repository: https://github.com/rk0cc/tempcord_data/tree/main/reader_generic
+repository: https://github.com/rk0cc/tempcord_data/tree/main/reader
 issue_tracker: https://github.com/rk0cc/tempcord_data/issues
 dependencies:
   tempcord_data_parser: ^1.0.0
+  http: ^0.13.4
 dev_dependencies: 
   test: ^1.20.2
