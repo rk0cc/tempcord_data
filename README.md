@@ -1,5 +1,7 @@
 # Data handler for Tempcord
 
+![GitHub Sponsors](https://img.shields.io/github/sponsors/rk0cc)
+
 Provides standarised data model for Tempcord.
 
 ## Packages contain in this repository
